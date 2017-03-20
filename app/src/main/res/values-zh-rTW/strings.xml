@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">對手圍棋</string>
+    <string name="open">選擇棋局</string>
+    <string name="save">保存棋局</string>
+    <string name="newGame">新遊戲</string>
+    <string name="undo">悔棋</string>
+    <string name="resign">認輸</string>
+    <string name="score">Score</string>
+    <string name="pass">Pass</string>
+    <string name="done">確定</string>
+    <string name="pattern">Pattern</string>
+    <string name="start_engine">正在初始化引擎，請等待&#8230;</string>
+    <string name="tap_screen_alert">從這裏落子將覆蓋當前的棋局</string>
+    <string name="dialog_pattern">
+        在電腦上從 <a href="http://pachi.or.cz/pat/gogod/">http://pachi.or.cz/pat/gogod/</a>\n
+       下載 patterns.prob,xz 和 patterns.spat.xz 兩個文件並解壓，然後把patterns.prob和patterns.spat 拷貝到手機GoGamesPachi目錄下，重新啟動程序。據引擎作者說可以提高電腦棋力。
+    </string>
+    <string name="permission">這個軟件需要外部存儲權限，請在手機設置中打開此權限</string>
+
+    <string name="open_file_error">文件打開錯誤</string>
+    <string name="cannot_find_files">沒有發現棋局文件</string>
+    <string name="game_exited">圍棋引擎異常退出</string>
+    <string name="white">白</string>
+    <string name="black">黑</string>
+    <string name="handicap">讓子</string>
+    <string name="rules">規則</string>
+    <string name="komi">貼目</string>
+    <string name="load">調入</string>
+    <string name="player">玩家</string>
+    <string name="refresh">刷新</string>
+    <string name="boardsize">棋盤大小</string>
+    <string name="version">版本 %s</string>
+    <string name="random">隨機</string>
+    <string name="loading">正在調入…</string>
+
+    <string name="gtp_player_color">玩家顏色</string>
+    <string name="gtp_bot_level">難度</string>
+    <string name="gtp_start_game">開始</string>
+    <string name="gtp_resume_game">繼續</string>
+    <string name="gtp_resign_win">電腦認輸！</string>
+    <string name="gtp_game_result">%1$s 贏了 %2$s 目!</string>
+
+    <string name="board_no_moves">開始遊戲</string>
+    <string name="board_move_number">第%d步</string>
+    <string name="board_game_vs">玩家 vs %s</string>
+    <string name="board_bot_level">Lv.%d</string>
+    <string name="board_player_resigned">%s 認輸.</string>
+    <string name="board_player_passes">%s 放棄一步.</string>
+    <string name="cancel">取消</string>
+    <string name="submit">確定</string>
+    <string name="feedback">反饋</string>
+    <string name="gameinfo">棋局信息</string>
+    <string name="rateApp">給我評分</string>
+    <string name="ourWebsite">我的主頁</string>
+
+
+</resources>

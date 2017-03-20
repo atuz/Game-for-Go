@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">Go Game</string>
+    <string name="open">Open File&#8230;</string>
+    <string name="save">Save</string>
+    <string name="newGame">New Game</string>
+    <string name="undo">Undo</string>
+    <string name="resign">Resign</string>
+    <string name="score">Score</string>
+    <string name="pass">Pass</string>
+    <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
+    <string name="pattern">Pattern</string>
+    <string name="start_engine">starting the engine &#8230;</string>
+    <string name="tap_screen_alert">Continue the game at this point will overwrite past moves.</string>
+    <string name="dialog_pattern">
+        Go to <a href="http://pachi.or.cz/pat/gogod/">http://pachi.or.cz/pat/gogod/</a>\n
+       download both the patterns.prob,xz and patterns.spat.xz files and unpack them,then copy patterns.prob and patterns.spat files in the directory where the directory       name is GoGamesPachi. Restart app,That is all.
+    </string>
+    <string name="permission">This application requires external storage permissions</string>
+
+    <string name="open_file_error">Open file error</string>
+    <string name="cannot_find_files">Can not find game files</string>
+    <string name="game_exited">Game exited</string>
+    <string name="white">White</string>
+    <string name="black">Black</string>
+    <string name="handicap">Handicap</string>
+    <string name="rules">Rules</string>
+    <string name="komi">Komi</string>
+    <string name="load">Load</string>
+    <string name="player">Player</string>
+    <string name="refresh">Refresh</string>
+    <string name="boardsize">Board size</string>
+    <string name="version">Version %s</string>
+    <string name="random">Random</string>
+    <string name="loading">Loading…</string>
+    <string name="putMessage">Enter Your Message</string>
+
+    <string name="gtp_player_color">Your color</string>
+    <string name="gtp_bot_level">Bot level</string>
+    <string name="gtp_start_game">Start</string>
+    <string name="gtp_resume_game">Resume</string>
+    <string name="gtp_resign_win">You won by resignation !</string>
+    <string name="gtp_game_result">%1$s wins by %2$s !</string>
+
+    <string name="board_no_moves">Game start</string>
+    <string name="board_move_number">Move %d</string>
+    <string name="board_game_vs">Game vs %s</string>
+    <string name="board_bot_level">Lv.%d</string>
+    <string name="board_player_resigned">%s resigned the game.</string>
+    <string name="board_player_passes">%s passes.</string>
+
+    <string name="submit">Submit</string>
+    <string name="feedback">Feedback</string>
+    <string name="gameinfo">Game Info</string>
+    <string name="rateApp">Rate this App</string>
+    <string name="ourWebsite">Our WebSite</string>
+</resources>

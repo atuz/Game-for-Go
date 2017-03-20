@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:baselineAligned="false"
+                android:weightSum="1.0">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_weight=".50">
+
+                    <TextView
+                        android:text="@string/boardsize"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Spinner
+                        android:id="@+id/spn_play_boardsize"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:drawSelectorOnTop="true"
+                        android:entries="@array/playBoardsize" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_weight=".50">
+
+                    <TextView
+                        android:text="@string/komi"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Spinner
+                        android:id="@+id/spn_play_komi"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:drawSelectorOnTop="true"
+                        android:entries="@array/playKomi" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:text="@string/gtp_player_color"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold"
+                android:layout_marginTop="6dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Spinner
+                android:id="@+id/spn_play_color"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:drawSelectorOnTop="true"
+                android:entries="@array/playColor" />
+
+            <TextView
+                android:text="@string/gtp_bot_level"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold"
+                android:layout_marginTop="6dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Spinner
+                android:id="@+id/spn_play_level"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:drawSelectorOnTop="true"
+                android:entries="@array/playLevels" />
+
+            <TextView
+                android:text="@string/handicap"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold"
+                android:layout_marginTop="6dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Spinner
+                android:id="@+id/spn_play_handicap"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:drawSelectorOnTop="true"
+                android:entries="@array/playHandicap" />
+
+</LinearLayout>

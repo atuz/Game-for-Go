@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default locale: EN (English) -->
+    <string name="app_name">Go Game</string>
+    <string name="open">ファイルを開く&#8230;</string>
+    <string name="newGame">New Game</string>
+    <string name="undo">戻る</string>
+    <string name="resign">投了</string>
+    <string name="score">地</string>
+    <string name="pass">パス</string>
+    <string name="cancel">取消</string>
+    <string name="done">完了</string>
+    <string name="pattern">Pattern</string>
+    <string name="start_engine">読み込んでいます…</string>
+    <string name="tap_screen_alert">この時点でゲームを続けると、過去の動きが上書きされます。</string>
+    <string name="dialog_pattern">
+        Go to <a href="http://pachi.or.cz/pat/gogod/">http://pachi.or.cz/pat/gogod/</a>\n
+       download both the patterns.prob,xz and patterns.spat.xz files and unpack them,then copy patterns.prob and patterns.spat files in the directory where the directory       name is GoGamesPachi. Restart app,That is all.
+    </string>
+
+    <string name="permission"> このアプリケーションには、外部ストレージ権限が必要です</string>
+    <string name="open_file_error">オープンファイルエラー</string>
+    <string name="cannot_find_files">ゲームファイルが見つかりません</string>
+    <string name="game_exited">ゲームが終了しました</string>
+    <!-- Frequent words -->
+    <string name="white">白</string>
+    <string name="black">黒</string>
+    <string name="handicap">手合い</string>
+    <string name="rules">ルール</string>
+    <string name="komi">コミ</string>
+    <string name="save">保存する</string>
+    <string name="load">ロードする</string>
+    <string name="player">プレーヤー</string>
+    <string name="refresh">リフレッシュ</string>
+    <string name="boardsize">盤のサイズ</string>
+    <string name="version">バージョン %s</string>
+    <string name="random">ランダム</string>
+    <string name="loading">読み込んでいます…</string>
+
+
+        <!-- Vs Bot -->
+    <string name="gtp_player_color">あなたの石の色</string>
+    <string name="gtp_bot_level">コンピューターのレベル</string>
+    <string name="gtp_start_game">開始</string>
+    <string name="gtp_resume_game">再開</string>
+    <string name="gtp_resign_win">投了によりあなたが勝ちました！</string>
+    <string name="gtp_game_result">%1$s%2$s目勝！</string>
+
+    <string name="board_no_moves">ゲーム開始</string>
+    <string name="board_move_number">第%d手</string>
+    <string name="board_game_vs">Game %$ との対局</string>
+    <string name="board_bot_level">Lv.%d</string>
+    <string name="board_player_resigned">%sが投了しました。</string>
+    <string name="board_player_passes">%sはパスします。</string>
+</resources>

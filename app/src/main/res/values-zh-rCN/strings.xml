@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">对手围棋</string>
+    <string name="open">选择棋局</string>
+    <string name="save">保存棋局</string>
+    <string name="newGame">新游戏</string>
+    <string name="undo">悔棋</string>
+    <string name="resign">认输</string>
+    <string name="score">Score</string>
+    <string name="pass">Pass</string>
+    <string name="done">确定</string>
+    <string name="pattern">Pattern</string>
+    <string name="start_engine">正在初始化引擎，请等待&#8230;</string>
+    <string name="tap_screen_alert">从这里落子将覆盖当前的棋局</string>
+    <string name="dialog_pattern">
+        在电脑上从 <a href="http://pachi.or.cz/pat/gogod/">http://pachi.or.cz/pat/gogod/</a>\n
+       下载 patterns.prob,xz 和 patterns.spat.xz 两个文件并解压，然后把patterns.prob和patterns.spat 拷贝到手机GoGamesPachi目录下，重新启动程序。据引擎作者说可以提高电脑棋力。
+    </string>
+    <string name="permission">这个软件需要外部存储权限，请在手机设置中打开此权限</string>
+
+    <string name="open_file_error">文件打开错误</string>
+    <string name="cannot_find_files">没有发现棋局文件</string>
+    <string name="game_exited">围棋引擎异常退出</string>
+    <string name="white">白</string>
+    <string name="black">黑</string>
+    <string name="handicap">让子</string>
+    <string name="rules">规则</string>
+    <string name="komi">贴目</string>
+    <string name="load">调入</string>
+    <string name="player">玩家</string>
+    <string name="refresh">刷新</string>
+    <string name="boardsize">棋盘大小</string>
+    <string name="version">版本 %s</string>
+    <string name="random">随机</string>
+    <string name="loading">正在调入…</string>
+
+    <string name="gtp_player_color">玩家颜色</string>
+    <string name="gtp_bot_level">难度</string>
+    <string name="gtp_start_game">开始</string>
+    <string name="gtp_resume_game">继续</string>
+    <string name="gtp_resign_win">电脑认输！</string>
+    <string name="gtp_game_result">%1$s 赢了 %2$s 目!</string>
+
+    <string name="board_no_moves">开始游戏</string>
+    <string name="board_move_number">第%d步</string>
+    <string name="board_game_vs">玩家 vs %s</string>
+    <string name="board_bot_level">Lv.%d</string>
+    <string name="board_player_resigned">%s 认输.</string>
+    <string name="board_player_passes">%s 放弃一步.</string>
+    <string name="cancel">取消</string>
+    <string name="submit">确定</string>
+    <string name="feedback">反馈</string>
+    <string name="gameinfo">棋局信息</string>
+    <string name="rateApp">给我评分</string>
+    <string name="ourWebsite">我的主页</string>
+
+</resources>
+
+
+

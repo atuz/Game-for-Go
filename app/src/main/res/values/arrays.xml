@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="playBoardsize">
+        <item>9</item>
+        <item>13</item>
+        <item>19</item>
+    </string-array>
+
+    <string-array name="playKomi">
+        <item>7.5</item>
+        <item>6.5</item>
+        <item>5.5</item>
+        <item>0.5</item>
+    </string-array>
+
+    <string-array name="playHandicap">
+        <item>0</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
+    <string-array name="playColor">
+        <item>@string/black</item>
+        <item>@string/white</item>
+    </string-array>
+
+    <string-array name="playLevels">
+        <item>1 (faster)</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10 (stronger)</item>
+    </string-array>
+</resources>

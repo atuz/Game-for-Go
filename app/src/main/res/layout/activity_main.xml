@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.zhengping.gogame.MainActivity"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/problembg"
+        android:scaleType="centerCrop"
+        />
+    <LinearLayout
+        android:id="@+id/boardViewLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/adViewGoGame"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:background="@android:color/transparent"
+
+        >
+        <com.zhengping.gogame.Board.BoardView
+            android:id="@+id/boardView"
+            android:layout_width="match_parent"
+            android:layout_height="100sp"
+            android:background="@drawable/s_problembg"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@android:color/white"
+            android:layout_height="0sp"
+            android:layout_weight="1"
+            >
+            <RelativeLayout
+                android:id="@+id/controlPanel"
+                android:layout_width="match_parent"
+                android:layout_above="@+id/adViewJoseki"
+                android:layout_height="50sp"
+                android:visibility="visible"
+                android:background="@android:color/transparent"
+
+                >
+
+                <ImageButton
+                    android:id="@+id/toPreBtn"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="5sp"
+                    style="?android:attr/buttonStyleSmall"
+
+                    android:layout_width="50sp"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/problemViewPositionView"
+                    android:layout_toLeftOf="@+id/problemViewPositionView"
+                    android:onClick="toPre"
+                    android:src = "@drawable/back" />
+
+
+
+                <View
+                    android:id="@+id/problemViewPositionView"
+                    android:layout_width="1sp"
+                    android:layout_height="50sp"
+
+                    android:background="@android:color/transparent"
+                    android:layout_centerInParent="true"
+                    />
+
+                <ImageButton
+                    android:id="@+id/toNextBtn"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="5sp"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="50sp"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/problemViewPositionView"
+                    android:layout_toRightOf="@+id/problemViewPositionView"
+                    android:onClick="toNext"
+                    android:src = "@drawable/next"
+                    />
+
+                <ImageButton
+                    android:id="@+id/scoreBtn"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="5sp"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="50sp"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/passBtn"
+                    android:layout_toLeftOf="@+id/passBtn"
+                    android:onClick="territory"
+                    android:src="@drawable/score"  />
+
+
+                <ImageButton
+                    android:id="@+id/passBtn"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginStart="5sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_marginEnd="10sp"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="50sp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:onClick="pass"
+
+                    android:src ="@drawable/pass" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/newGameView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/adViewGoGame"
+        android:background="@android:color/white"
+        android:visibility="visible"
+        android:clickable="true"
+        >
+        <include layout="@layout/new_game" />
+
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/adViewGoGame"
+        android:background="@android:color/transparent"
+        android:visibility="invisible"
+        >
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/loadingText"
+            android:layout_centerHorizontal="true"
+
+            />
+        <TextView
+            android:id="@+id/loadingText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            android:textAlignment="center"
+            android:textSize="20sp"
+
+            />
+
+
+    </RelativeLayout>
+
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewGoGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        ads:adSize="BANNER"
+        android:visibility="visible"
+        ads:adUnitId="ca-app-pub-8278333774696675/3086132541">
+    </com.google.android.gms.ads.AdView>
+
+
+
+</RelativeLayout>

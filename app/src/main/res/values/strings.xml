@@ -8,6 +8,7 @@
     <string name="score">Score</string>
     <string name="pass">Pass</string>
     <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
     <string name="done">Done</string>
     <string name="pattern">Pattern</string>
     <string name="start_engine">starting the engine &#8230;</string>
@@ -36,7 +37,7 @@
     <string name="putMessage">Enter Your Message</string>
 
     <string name="gtp_player_color">Your color</string>
-    <string name="gtp_bot_level">Bot level</string>
+    <string name="gtp_bot_level">Bot level (Level> 5 use the server)</string>
     <string name="gtp_start_game">Start</string>
     <string name="gtp_resume_game">Resume</string>
     <string name="gtp_resign_win">You won by resignation !</string>
@@ -44,8 +45,8 @@
 
     <string name="board_no_moves">Game start</string>
     <string name="board_move_number">Move %d</string>
-    <string name="board_game_vs">Game vs %s</string>
-    <string name="board_bot_level">Lv.%d</string>
+    <string name="board_game_vs">Player vs %s</string>
+    <string name="board_bot_level">Lv.</string>
     <string name="board_player_resigned">%s resigned the game.</string>
     <string name="board_player_passes">%s passes.</string>
 
@@ -54,4 +55,19 @@
     <string name="gameinfo">Game Info</string>
     <string name="rateApp">Rate this App</string>
     <string name="ourWebsite">Our WebSite</string>
+
+    <string name="connect_server_fail">Can not connect to the server, Please try again later.</string>
+    <string name="Ai_thinking_fiale">AI Error, please resume game.</string>
+
+    <string name="black_point">Black points</string>
+    <string name="white_point">White points</string>
+    <string name="point">points</string>
+    <string name="territory">territory</string>
+    <string name="exit">EXIT</string>
+    <string name="replay">study</string>
+    <string name="replay_end">end</string>
+    <string name="leads">leads by</string>
+    <string name="eat">Prisoners:</string>
+    <string name="you">You</string>
+
 </resources>

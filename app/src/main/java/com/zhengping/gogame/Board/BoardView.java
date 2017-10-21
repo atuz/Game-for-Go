@@ -9,6 +9,8 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 
 import com.zhengping.gogame.Object.Stone;
 
@@ -29,11 +31,13 @@ public class BoardView extends ProblemView {
     long scaleTime =0;
     int scaleBase = 0;
     float mScaleFactor = 1.f;
+    Point focusPoint = null;
     byte nextColor = 0;
     private Stone moveStone;
     Stone lastDead = null;
     Stone lastStone = null;
-    public boolean isAIThinking = false;
+
+    public boolean touchScreenAllowed = true;
     private ScaleGestureDetector mScaleDetector;
     public BoardViewTouchListener boardViewTouchListener;
 
@@ -69,9 +73,11 @@ public class BoardView extends ProblemView {
                 break;
         }
 
+//        if (focusPoint != null)
+//        canvas.translate(-(mScaleFactor - 1) * focusPoint.x, -(mScaleFactor - 1) * focusPoint.y);
         canvas.scale(mScaleFactor, mScaleFactor);
         super.onDraw(canvas);
-        if (touching && !isAIThinking) {
+        if (touching && touchScreenAllowed) {
             currentPoint(canvas);
         }
         if (lastStone != null && !showTerritory){
@@ -98,7 +104,7 @@ public class BoardView extends ProblemView {
     @Override
 
     public boolean onTouchEvent(MotionEvent event) {
-        if (isAIThinking){
+        if (!touchScreenAllowed){
             return true;
         }
         mScaleDetector.onTouchEvent(event);
@@ -229,6 +235,7 @@ public class BoardView extends ProblemView {
         public boolean onScale(ScaleGestureDetector detector) {
             if (mScaleFactor >= 1f && mScaleFactor<=1.02) {
                 Point point = new Point((int)detector.getFocusX(),(int)detector.getFocusY());
+                focusPoint = point;
                 if (point.x <=width/2 &&point.y <=width/2) {
                     scaleBase =0;
                 }else if(point.x >width/2 &&point.y <=width/2){
@@ -322,6 +329,10 @@ public class BoardView extends ProblemView {
             } else {
                 lastDead = null;
             }
+            if (stone.color ==BLACK)
+               black_captures += capturedStones.size();
+            else
+               white_captures += capturedStones.size();
             cleanDeadBody(capturedStones);
             trueBoard[stone.point.x][stone.point.y] = stone.color;
             nextColor = getOppositeColor(stone.color);
@@ -426,6 +437,8 @@ public class BoardView extends ProblemView {
         lastDead = null;
         moveStone = null;
         lastStone = null;
+        black_captures = 0;
+        white_captures = 0;
         invalidate();
     }
     public byte getOppositeColor(byte color){
@@ -440,6 +453,25 @@ public class BoardView extends ProblemView {
         clearBoard();
 
     }
+    public void scaleView() {
+        new Thread(new Runnable() {
+            float dec = (mScaleFactor-1)/20;
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                for (int i = 0; i < 20; i++) {
+                    mScaleFactor -= dec;
+                    postInvalidate();
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
 
+            }
+        }).start();
+    }
 
 }

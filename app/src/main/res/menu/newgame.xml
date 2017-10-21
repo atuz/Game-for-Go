@@ -6,12 +6,9 @@
             android:id="@+id/action_cancel"
             android:orderInCategory="101"
             android:title="@string/cancel"
+            android:icon="@drawable/open"
             app:showAsAction="always"/>
-        <item
-            android:id="@+id/action_done"
-            android:orderInCategory="102"
-            android:title="@string/done"
-            app:showAsAction="always"/>
+
 
 
 

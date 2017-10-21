@@ -20,7 +20,15 @@ package com.zhengping.gogame;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -28,13 +36,20 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 public class GoGameApplication extends Application {
     private static final String TAG = "Application";
+    private static final String Host = "host";
+    private static final String Port = "port";
+
     static public File cacheDir=new File(android.os.Environment.getExternalStorageDirectory(),"GoGamesPachi");
     public static File pachiFile = null;
     public static File dataFile = null;
     public static File dir = null;
+    public static String host = "";
+    public static int port;
     public static boolean PERMISSIONS_EXTERNAL_STORAGE  = false;
     private static GoGameApplication app;
     @Override
@@ -45,6 +60,41 @@ public class GoGameApplication extends Application {
         dataFile = getDataFile();
         dir = getDir("engines", Context.MODE_PRIVATE);
         copyJoseki();
+        SharedPreferences settings = PreferenceManager
+                .getDefaultSharedPreferences(getApplicationContext());
+        host = settings.getString(Host,"192.168.1.17");
+        port = settings.getInt(Port,6666);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef1 = database.getReferenceFromUrl("https://go-game-be8dc.firebaseio.com/"); //Getting root reference
+        DatabaseReference myRef = myRef1.child(Host);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    Map<String, String> value = (Map<String, String>) dataSnapshot.getValue();
+                    if (value.get("author").equals("zhengping")){
+                        host = value.get(Host);
+                        port = Integer.parseInt(value.get(Port ));
+                        SharedPreferences settings = PreferenceManager
+                                .getDefaultSharedPreferences(getApplicationContext());
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString(Host,host);
+                        editor.putInt(Port,port);
+                        editor.apply();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+            }
+        });
+
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 

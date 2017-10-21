@@ -1,31 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/action_undo"
-        android:orderInCategory="101"
-        android:title="@string/undo"
+        android:id="@+id/action_resume"
+        android:orderInCategory="103"
+        android:title="@string/gtp_resume_game"
+        android:icon="@android:drawable/ic_menu_rotate"
         app:showAsAction="always"/>
 
-    <item android:id="@+id/action_newGame"
-        android:orderInCategory="102"
-        android:title= "@string/newGame"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_open_file"
-        android:orderInCategory="103"
-        android:title="@string/open"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_pattern"
-        android:orderInCategory="104"
-        android:title="@string/pattern"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/action_feedback"
-        android:orderInCategory="105"
-        android:title="@string/feedback"
-        app:showAsAction="never"/>
-
 </menu>
+
+<!--<item-->
+<!--android:id="@+id/action_pattern"-->
+<!--android:orderInCategory="104"-->
+<!--android:title="@string/pattern"-->
+<!--app:showAsAction="never"/>-->

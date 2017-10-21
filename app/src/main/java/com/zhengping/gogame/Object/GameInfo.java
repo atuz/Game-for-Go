@@ -1,5 +1,7 @@
 package com.zhengping.gogame.Object;
 
+import android.graphics.Point;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ public class GameInfo {
     String Rule = "JPN";
     int Size = 19;
     int Hdcp = 0;
-    String Komi = "6.5";
+    public String Komi = "6.5";
     String Ptime =  ""; //"N;0;10;30,N;0;10;30,0,0";
     String Winner= "";
     String Moves= "0";
@@ -121,19 +123,24 @@ public class GameInfo {
         s += "Hdcp=" +Hdcp +","+Komi +System.getProperty("line.separator");
         s += "Ptime="+System.getProperty("line.separator");
         s += "Winner=" + Winner+System.getProperty("line.separator");
-        s += "Moves=0" + Winner+System.getProperty("line.separator");
-        s += "Writer=" + Winner+System.getProperty("line.separator");
-        s += "Copyright=" +Copyright+ Winner+System.getProperty("line.separator");
-        s += "CoordinateType=" +CoordinateType+ Winner+System.getProperty("line.separator");
-        s += "Comment=" + Winner+System.getProperty("line.separator");
+        s += "Moves=" + Moves + System.getProperty("line.separator");
+        s += "Writer=" + Writer+System.getProperty("line.separator");
+        s += "Copyright=" +Copyright+ System.getProperty("line.separator");
+        s += "CoordinateType=" +CoordinateType+ System.getProperty("line.separator");
+        s += "Comment=" + System.getProperty("line.separator");
         s += "PlayerB=" + PlayerB+System.getProperty("line.separator");
         s += "PlayerW=" + PlayerW+System.getProperty("line.separator");
         s += "[Data]" + System.getProperty("line.separator");
         for (int i=0;i< ABList.size();++i){
-            String position = ABList.get(i);
+            String position = ABList.get(i).toUpperCase();
             String color = "B1";
+            char t1 = position.charAt(0);
+            char t2 = position.charAt(1);
+            if (CoordinateType.equals("IGS")) {
+                t2 = (char)(Size - t2 +'A'-1 +'A' );
+            }
 
-            s += position.toUpperCase()+","+color + ","+"0"+",0"+System.getProperty("line.separator");
+            s += String.valueOf(t1)+String.valueOf(t2)+","+color + ","+"0"+",0"+System.getProperty("line.separator");
         }
         for (int i=0;i< gameList.size();++i){
             Stone stone = gameList.get(i);

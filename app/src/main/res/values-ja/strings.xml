@@ -40,7 +40,7 @@
 
         <!-- Vs Bot -->
     <string name="gtp_player_color">あなたの石の色</string>
-    <string name="gtp_bot_level">コンピューターのレベル</string>
+    <string name="gtp_bot_level">困难(>5 サーバーを使用する)</string>
     <string name="gtp_start_game">開始</string>
     <string name="gtp_resume_game">再開</string>
     <string name="gtp_resign_win">投了によりあなたが勝ちました！</string>
@@ -48,8 +48,22 @@
 
     <string name="board_no_moves">ゲーム開始</string>
     <string name="board_move_number">第%d手</string>
-    <string name="board_game_vs">Game %$ との対局</string>
-    <string name="board_bot_level">Lv.%d</string>
+    <string name="board_game_vs">Game %s との対局</string>
+    <string name="board_bot_level">Lv.</string>
     <string name="board_player_resigned">%sが投了しました。</string>
     <string name="board_player_passes">%sはパスします。</string>
+
+
+    <string name="black_point">黑目</string>
+    <string name="white_point">白目</string>
+    <string name="point">目</string>
+    <string name="territory">形勢判断</string>
+    <string name="exit">出口</string>
+    <string name="replay">試験</string>
+    <string name="replay_end">完了</string>
+    <string name="leads">優勢</string>
+    <string name="eat">取る </string>
+    <string name="you">貴方</string>
+
+
 </resources>

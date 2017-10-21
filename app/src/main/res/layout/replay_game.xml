@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="40sp">
+
+<ImageButton
+    android:paddingTop="5sp"
+    android:paddingBottom="5sp"
+    android:scaleType="fitCenter"
+    android:id="@+id/toPreBtn"
+
+    style="@style/Widget.AppCompat.Button.Colored"
+    android:src= "@drawable/media_start"
+
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="40sp"
+    android:onClick="toStart"
+    />
+
+<ImageButton style="@style/Widget.AppCompat.Button.Colored"
+    android:paddingTop="8sp"
+    android:paddingBottom="8sp"
+    android:id="@+id/toNextBtn"
+    android:src= "@drawable/media_back"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="40sp"
+    android:scaleType="fitCenter"
+    android:onClick="toPre"
+
+    />
+
+<ImageButton style="@style/Widget.AppCompat.Button.Colored"
+    android:paddingTop="8sp"
+    android:paddingBottom="8sp"
+    android:scaleType="fitCenter"
+    android:id="@+id/scoreBtn"
+
+    android:layout_width="0dp"
+    android:layout_weight="1"
+
+    android:layout_height="40sp"
+
+    android:onClick="toNext"
+
+    android:src="@drawable/media_play"  />
+
+
+<ImageButton style="@style/Widget.AppCompat.Button.Colored"
+    android:paddingTop="5sp"
+    android:paddingBottom="5sp"
+    android:scaleType="fitCenter"
+    android:id="@+id/passBtn"
+
+    android:layout_width="0dp"
+    android:layout_weight="1"
+
+    android:layout_height="40sp"
+    android:onClick="toEnd"
+    android:layout_gravity="bottom"
+    android:src="@drawable/media_end"
+    />
+
+
+</LinearLayout>

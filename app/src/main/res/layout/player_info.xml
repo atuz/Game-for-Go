@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50sp"
+    >
+    <Button
+        android:id="@+id/toReplayBtn"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="50sp"
+        android:layout_height="40sp"
+        android:paddingTop="5sp"
+        android:text="@string/replay"
+        android:lines="1"
+        android:textSize="11sp"
+        android:layout_centerHorizontal="true"
+        android:onClick="toReplay"
+        />
+<LinearLayout
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:paddingTop="5sp"
+
+    android:background="@android:color/white"
+    android:layout_height="60sp">
+    <LinearLayout
+        android:layout_width="0sp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginRight="2sp"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15sp"
+            >
+            <ImageView
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:src="@drawable/black_new"
+                />
+            <TextView
+                android:layout_marginLeft="10sp"
+                android:layout_width="match_parent"
+                android:layout_height="30sp"
+                android:id="@+id/player1"
+                android:lines="1"
+                android:text="Player"
+                android:gravity="center_vertical"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height ="0sp"
+            android:layout_weight= "1"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:paddingLeft="25sp"
+                android:layout_height="match_parent"
+                android:id="@+id/player1_prisoners"
+                android:gravity="start"
+                android:lines="2"
+                android:layout_gravity="bottom"
+
+                />
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="0sp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15sp">
+
+            <TextView
+                android:layout_marginRight="10sp"
+                android:layout_width="0sp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:id="@+id/player2"
+                android:lines="1"
+                android:text="Player"
+                android:gravity="center_vertical|end"
+                android:textStyle="bold"
+                />
+            <ImageView
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:src="@drawable/white_new"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height ="0sp"
+            android:layout_weight= "1"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/player2_prisoners"
+                android:gravity="end"
+                android:lines="1"
+                android:paddingRight="25sp"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
+</RelativeLayout>

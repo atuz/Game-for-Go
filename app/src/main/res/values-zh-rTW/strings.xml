@@ -35,7 +35,7 @@
     <string name="loading">正在調入…</string>
 
     <string name="gtp_player_color">玩家顏色</string>
-    <string name="gtp_bot_level">難度</string>
+    <string name="gtp_bot_level">難度 (難度>5 采用服務器AI)</string>
     <string name="gtp_start_game">開始</string>
     <string name="gtp_resume_game">繼續</string>
     <string name="gtp_resign_win">電腦認輸！</string>
@@ -44,7 +44,7 @@
     <string name="board_no_moves">開始遊戲</string>
     <string name="board_move_number">第%d步</string>
     <string name="board_game_vs">玩家 vs %s</string>
-    <string name="board_bot_level">Lv.%d</string>
+    <string name="board_bot_level">Lv.</string>
     <string name="board_player_resigned">%s 認輸.</string>
     <string name="board_player_passes">%s 放棄一步.</string>
     <string name="cancel">取消</string>
@@ -53,6 +53,17 @@
     <string name="gameinfo">棋局信息</string>
     <string name="rateApp">給我評分</string>
     <string name="ourWebsite">我的主頁</string>
+
+    <string name="black_point">黑目</string>
+    <string name="white_point">白目</string>
+    <string name="point">目</string>
+    <string name="territory">形勢判斷</string>
+    <string name="exit">出口</string>
+    <string name="replay">試験</string>
+    <string name="replay_end">完了</string>
+    <string name="leads">優勢</string>
+    <string name="eat">吃子 </string>
+    <string name="you">你</string>
 
 
 </resources>

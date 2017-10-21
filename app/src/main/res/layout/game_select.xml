@@ -17,19 +17,22 @@
         android:paddingBottom="10sp"
 
         android:orientation="vertical">
+
+        <ListView android:id="@+id/moreGamesListView"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="1"
+            android:choiceMode="singleChoice"
+            android:dividerHeight="1dp"
+            android:background="@android:color/white"
+            />
         <Button
             android:id="@+id/moreGamesCancelBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="center"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
             android:text="@android:string/cancel"
-            />
-        <ListView android:id="@+id/moreGamesListView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:choiceMode="singleChoice"
-            android:dividerHeight="1dp"
-            android:background="@android:color/white"
             />
     </LinearLayout>
 

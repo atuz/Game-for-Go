@@ -33,91 +33,114 @@
             android:layout_height="100sp"
             android:background="@drawable/s_problembg"/>
 
+
+
         <LinearLayout
+            android:id="@+id/controlPanel"
             android:layout_width="match_parent"
-            android:background="@android:color/white"
             android:layout_height="0sp"
             android:layout_weight="1"
-            >
-            <RelativeLayout
-                android:id="@+id/controlPanel"
-                android:layout_width="match_parent"
-                android:layout_above="@+id/adViewJoseki"
-                android:layout_height="50sp"
-                android:visibility="visible"
-                android:background="@android:color/transparent"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:background="@android:color/transparent"
 
+            >
+            <include
+                android:layout_width="fill_parent"
+                android:layout_height="0sp"
+                android:layout_weight="1"
+
+                android:id = "@+id/player_info_view"
+
+                layout="@layout/player_info" />
+
+            <include android:layout_width="match_parent"
+
+                android:id="@+id/replay_controller"
+                android:layout_height="40sp"
+                layout="@layout/replay_game"
+                android:visibility="gone"
                 >
 
-                <ImageButton
-                    android:id="@+id/toPreBtn"
-                    android:layout_marginLeft="5sp"
-                    android:layout_marginRight="5sp"
-                    style="?android:attr/buttonStyleSmall"
-
-                    android:layout_width="50sp"
-                    android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/problemViewPositionView"
-                    android:layout_toLeftOf="@+id/problemViewPositionView"
-                    android:onClick="toPre"
-                    android:src = "@drawable/back" />
+            </include >
+            <LinearLayout
+                android:id="@+id/play_game_controller"
+                android:layout_width="match_parent"
+                android:visibility="visible"
+                android:layout_height="40sp">
 
 
 
-                <View
-                    android:id="@+id/problemViewPositionView"
-                    android:layout_width="1sp"
-                    android:layout_height="50sp"
+                <Button style="@style/Widget.AppCompat.Button.Colored"
+                    android:id="@+id/toExitBtn"
+                    android:text = "@string/exit"
+                    android:lines="2"
+                    android:layout_width="0dp"
+                    android:textSize="12sp"
+                    android:layout_weight="1"
+                    android:layout_height="40sp"
+                    android:onClick="toNewGame"
 
-                    android:background="@android:color/transparent"
-                    android:layout_centerInParent="true"
+
+
+                    />
+                <Button
+
+
+                    android:id="@+id/passBtn"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:text = "@string/pass"
+                    android:textSize="12sp"
+                    android:lines="2"
+
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40sp"
+                    android:onClick="pass"
+
                     />
 
-                <ImageButton
-                    android:id="@+id/toNextBtn"
-                    android:layout_marginLeft="5sp"
-                    android:layout_marginRight="5sp"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="50sp"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/problemViewPositionView"
-                    android:layout_toRightOf="@+id/problemViewPositionView"
-                    android:onClick="toNext"
-                    android:src = "@drawable/next"
-                    />
 
-                <ImageButton
-                    android:id="@+id/scoreBtn"
-                    android:layout_marginLeft="5sp"
-                    android:layout_marginRight="5sp"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="50sp"
-                    android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/passBtn"
-                    android:layout_toLeftOf="@+id/passBtn"
-                    android:onClick="territory"
+                <Button style="@style/Widget.AppCompat.Button.Colored"
+
+
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/undoBtn"
+                    android:text = "@string/undo"
+                    android:textSize="12sp"
+                    android:lines="2"
+                    android:onClick="toUndo"
+                    android:layout_height="40sp"
+
+
                     android:src="@drawable/score"  />
 
 
-                <ImageButton
-                    android:id="@+id/passBtn"
-                    android:layout_marginLeft="5sp"
-                    android:layout_marginStart="5sp"
-                    android:layout_marginRight="10sp"
-                    android:layout_marginEnd="10sp"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="50sp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:onClick="pass"
+                <Button style="@style/Widget.AppCompat.Button.Colored"
 
-                    android:src ="@drawable/pass" />
+                    android:id="@+id/scoreBtn"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:lines="1"
+                    android:text = "@string/territory"
+                    android:textSize="12sp"
+                    android:layout_height="40sp"
+                    android:onClick="territory"
+
+                    android:layout_gravity="bottom"
 
 
-            </RelativeLayout>
+                    />
+
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
+
+
 
 
     </LinearLayout>
@@ -127,7 +150,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/adViewGoGame"
         android:background="@android:color/white"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:clickable="true"
         >
         <include layout="@layout/new_game" />
@@ -174,6 +197,19 @@
         android:visibility="visible"
         ads:adUnitId="ca-app-pub-8278333774696675/3086132541">
     </com.google.android.gms.ads.AdView>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/adViewGoGame"
+        android:visibility="invisible"
+        android:onClick="toCloseTerritory"
+        android:id ="@+id/territory_view"
+        layout="@layout/territory"
+        >
+
+
+    </include>
 
 
 

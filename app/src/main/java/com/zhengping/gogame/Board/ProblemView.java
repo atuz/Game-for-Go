@@ -46,6 +46,8 @@ public class ProblemView extends View {
     int lineWidth = 2;
     float cellWidth;
     public boolean drawStep = false;
+    public int black_captures = 0;
+    public int white_captures = 0;
     public ArrayList<Stone> stones = new ArrayList<>();
     Bitmap blackImg, whiteImg, currImg;
 
@@ -156,6 +158,27 @@ public class ProblemView extends View {
                 }
             }
         }
+        for (int i=0;i<nSize;i++){
+            for (int j=0;j<nSize;j++){
+                if ((char)scoreBoard[i][j] =='D' ||(char)scoreBoard[i][j] =='d'){
+                    if (trueBoard[i][j] == WHITE){
+                        paint.setStyle(Paint.Style.FILL);
+                        paint.setColor(Color.BLACK);
+                        float x = x2Screen(i);
+                        float y = y2Screen(j);
+                        mCanvas.drawRect(x-cellWidth / 6,y-cellWidth / 6,x+cellWidth / 6,y+cellWidth / 6,paint);
+                    }else{
+                        paint.setStyle(Paint.Style.FILL);
+                        paint.setColor(Color.WHITE);
+                        float x = x2Screen(i);
+                        float y = y2Screen(j);
+                        mCanvas.drawRect(x-cellWidth / 6,y-cellWidth / 6,x+cellWidth / 6,y+cellWidth / 6,paint);
+                    }
+                }
+            }
+        }
+
+
         for (int i=0;i<nSize;i++){
             for (int j=0;j<nSize;j++){
                 if ((char)scoreBoard[i][j] ==','){
@@ -444,6 +467,41 @@ public class ProblemView extends View {
 
     public void setTerritory(byte[][] territory){
         scoreBoard = Arrays.copyOf(territory, nSize*nSize);
+    }
+    public int[]calculate_m(){
+        int black =0, white =0;
+        if (scoreBoard == null) return null;
+        for (int i=0;i<nSize;i++){
+            for (int j=0;j<nSize;j++){
+                if ((char)scoreBoard[i][j] =='X' ||(char)scoreBoard[i][j] =='x'){
+                    if (trueBoard[i][j] != BLACK){
+                        black ++;
+                        if (trueBoard[i][j] == WHITE){
+                            black ++;
+                        }
+                    }
+                }
+            }
+        }
+        for (int i=0;i<nSize;i++){
+            for (int j=0;j<nSize;j++){
+                if ((char)scoreBoard[i][j] =='O' ||(char)scoreBoard[i][j] =='o'){
+                    if (trueBoard[i][j] != WHITE){
+                        white ++;
+                        if (trueBoard[i][j] == BLACK){
+                            white ++;
+
+                        }
+                    }
+                }
+            }
+        }
+        int[] m = new int[4];
+        m[0] = black;
+        m[1] = white;
+        m[2] = black_captures;
+        m[3] = white_captures;
+        return m;
     }
     float x2Screen(int x) {
         return (x * cellWidth + xOffset);

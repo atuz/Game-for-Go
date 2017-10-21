@@ -17,7 +17,6 @@
  */
 package com.zhengping.gogame;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -38,6 +37,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -49,12 +49,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static com.zhengping.gogame.Board.ProblemView.BLACK;
 import static com.zhengping.gogame.Board.ProblemView.WHITE;
 import static com.zhengping.gogame.GoGameApplication.PERMISSIONS_EXTERNAL_STORAGE;
 import static com.zhengping.gogame.GoGameApplication.cacheDir;
-import static com.zhengping.gogame.R.string.player;
 import static java.lang.Math.abs;
 
 import com.google.android.gms.ads.AdRequest;
@@ -64,8 +64,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.zhengping.gogame.Board.BoardView;
 import com.zhengping.gogame.Object.Game;
-import com.zhengping.gogame.Object.Stone;
-import com.zhengping.gogame.Object.pachiGame;
+import com.zhengping.gogame.Object.Gnugo_game;
+import com.zhengping.gogame.Object.SocketGame;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
@@ -82,10 +82,21 @@ import java.util.Map;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements Game.EngineProcessAction {
+
+
+    public enum Replay_Action{
+        Start, Pre, Next, End
+    }
+
+    public static String COM_GNUGO = "gnugo";
+    public static String COM_PACHI = "pachi";
+    public static String COM_SERVER = "Remote Server";
+
+
     final  private int PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1002;
     Menu menu;
     Context mainContext;
-    public Game game;
+    private Game game;
     BoardView boardView;
     PopupWindow loadFilesPopWindow;
     private static final String
@@ -110,21 +121,24 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
         setContentView(R.layout.activity_main);
         initAds(R.id.adViewGoGame);
         boardView = (BoardView)findViewById(R.id.boardView);
-        boardView.isAIThinking = false;
+        boardView.touchScreenAllowed = true;
         setup_newGame_View = findViewById(R.id.newGameView);
         loadingView = findViewById(R.id.loading);
         getPermission();
         setupLoadFileView();
         if (resumeGame()){
             isSetupNewGame = false;
-            setup_newGame_View.setVisibility(View.INVISIBLE);
+            setup_newGame_View.setVisibility(INVISIBLE);
             invalidateOptionsMenu();
         }else{
             setupNewGame();
         }
-        setTitle(getString(R.string.board_game_vs, "Pachi"));
+        setTitle(getString(R.string.board_game_vs, "AI"));
         if (getSupportActionBar()!= null)
             getSupportActionBar().setSubtitle(" ");
+
+
+      //  new Thread(new Client()).start();
 
 
     }
@@ -134,7 +148,8 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
         if (isSetupNewGame){
             getMenuInflater().inflate(R.menu.newgame, menu);
         }else{
-            getMenuInflater().inflate(R.menu.menu, menu);
+            if (game != null &&!game.connected)
+                getMenuInflater().inflate(R.menu.menu, menu);
         }
         return true;
     }
@@ -146,45 +161,22 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
 
         int i = item.getItemId();
         if (isSetupNewGame){
-            isSetupNewGame = false;
-            setup_newGame_View.setVisibility(View.INVISIBLE);
-
             switch (i){
                 case R.id.action_cancel:
+                    openFile();
                     break;
-                case R.id.action_done:
-                    startNewGame();
-                    break;
-
                 default:
 
           }
         }else{
 
             switch (i){
-                case R.id.action_newGame:
-                    saveGame();
-                    isSetupNewGame = true;
-                    setup_newGame_View.setVisibility(View.VISIBLE);
-                    setupNewGame();
+                case R.id.action_resume:
+                    if(game !=null) game.resume();
                     break;
-
-                case R.id.action_undo:
-                    if (game!=null)
-                        game.undo();
-                    break;
-
-                case R.id.action_open_file:
-                        openFile();
-                    break;
-                case R.id.action_pattern:
-                        setupPattern();
-                    break;
-                case R.id.action_feedback:
-                    feedback();
-                    break;
-
-
+//                case R.id.action_feedback:
+//                    feedback();
+//                    break;
                 default:
 
             }
@@ -197,12 +189,17 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         final String savedGame = prefs.getString("tempGame",null);
         if (savedGame != null){
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    game = new pachiGame(mainContext,savedGame,boardView);
-                }
-            }).start();
+           int level = PreferenceManager.getDefaultSharedPreferences(this).getInt("level",1);
+
+            if (level>5){
+                game = new SocketGame(mainContext,savedGame,boardView);
+            }else{
+                game = new Gnugo_game(mainContext,savedGame,boardView);
+            }
+
+            //  game = new pachiGame(mainContext,savedGame,boardView);
+
+
             return true;
         }
         return false;
@@ -210,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
 
     private void setupNewGame(){
 
+        setup_newGame_View.setVisibility(VISIBLE);
         _spn_boardSize = (Spinner) findViewById(R.id.spn_play_boardsize);
         _spn_komi = (Spinner) findViewById(R.id.spn_play_komi);
         _spn_color = (Spinner) findViewById(R.id.spn_play_color);
@@ -227,17 +225,25 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
 
 
     public void startNewGame() {
-            final int level = _spn_level.getSelectedItemPosition() + 1;
-            byte color;
-            int colorPos = _spn_color.getSelectedItemPosition();
-            if (colorPos == 0)
-                color = BLACK;
-            else
-                color = WHITE;
-            final byte humanColor = color;
-            final int boardsize = Integer.parseInt((String) _spn_boardSize.getSelectedItem());
-            final double komi = Double.parseDouble((String) _spn_komi.getSelectedItem());
-            final int handicap = Integer.parseInt((String) _spn_handicap.getSelectedItem());
+        saveGame();
+        final int level = _spn_level.getSelectedItemPosition() + 1;
+        byte color;
+        int colorPos = _spn_color.getSelectedItemPosition();
+        if (colorPos == 0){
+            color = BLACK;
+        }
+
+        else{
+            color = WHITE;
+        }
+
+        final byte humanColor = color;
+        final int boardsize = Integer.parseInt((String) _spn_boardSize.getSelectedItem());
+        final double komi = Double.parseDouble((String) _spn_komi.getSelectedItem());
+        int handicap = Integer.parseInt((String) _spn_handicap.getSelectedItem());
+
+        if (boardsize <19 && handicap>4)
+            handicap = 4;
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         editor.putInt(_PREF_BOARDSIZE,_spn_boardSize.getSelectedItemPosition());
@@ -247,16 +253,15 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
         editor.putInt( _PREF_HANDICAP,_spn_handicap.getSelectedItemPosition());
         editor.apply();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                game = new pachiGame(mainContext,boardsize,handicap,komi+"",humanColor,level,boardView);
-            }
-        }).start();
+               // findViewById(R.id.scoreBtn).setVisibility(View.INVISIBLE);
+        if (level>5){
+            game = new SocketGame(mainContext,boardsize,handicap,komi+"",humanColor,level,boardView);
+        }else{
+            game = new Gnugo_game(mainContext,boardsize,handicap,komi+"",humanColor,level,boardView);
+        }
 
-
-
-
+         //
+        //        game1 = new pachiGame(mainContext,boardsize,handicap,komi+"",AIColor,5,boardView);
     }
 
 
@@ -266,12 +271,12 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int height = displaymetrics.heightPixels;
         int width = displaymetrics.widthPixels;
-        int actionBarHeight = 50 ;
-        TypedValue tv = new TypedValue();
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
-        {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
-        }
+      //  int actionBarHeight = 50 ;
+//        TypedValue tv = new TypedValue();
+//        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+//        {
+//            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+//        }
         LayoutInflater layoutInflater = LayoutInflater.from(this);// LayoutInflater.from(context);
         View view =  layoutInflater.inflate(R.layout.game_select, null);
         loadFilesPopWindow = new PopupWindow(view, width, height, true);
@@ -313,20 +318,44 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
                         if (game!=null)game.saveGame();
                         loadFilesPopWindow.dismiss();
                         String uri = files[position];// public Game(Context context,Uri uri)
+                        int level = 1;
+                        try {
+                            level = Integer.parseInt(uri.substring(uri.lastIndexOf("_")+1,uri.lastIndexOf(".")));
+                        }catch (Exception ignored){}
+
+                        if (level >10) level = 1;
+                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mainContext).edit();
+                        editor.putInt("level",level);
+                        editor.commit();
                         File file = new File(cacheDir,uri);
                         final String text;
+                        final int gameLevel = level;
                         try{
                             InputStream s = new FileInputStream(file);
                             text = IOUtils.toString(s, Charset.forName("UTF-8"));
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    game = new pachiGame(mainContext,text,boardView);
+
+                                    if(gameLevel>5){
+                                        game = new SocketGame(mainContext,text,boardView);
+                                    }else{
+                                        game = new Gnugo_game(mainContext,text,boardView);
+                                    }
+
+
+                                  //
+                                  //  game = new pachiGame(mainContext,text,boardView);
                                 }
                             }).start();
 
                         }catch (Exception e){
                             Toast.makeText(mainContext,R.string.open_file_error,Toast.LENGTH_SHORT).show();
+                        }
+                        if (isSetupNewGame){
+                            isSetupNewGame = false;
+                            setup_newGame_View.setVisibility(INVISIBLE);
+                            invalidateOptionsMenu();
                         }
                     }
                 });
@@ -399,15 +428,7 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
         }
     }
 
-    public void Game(Context context,String uri){
-        try {
-            File file = new File(uri);
-            InputStream s = new FileInputStream(file);
-            String text = IOUtils.toString(s, Charset.forName("UTF-8"));
-        }catch (Exception ignored){
 
-        }
-    }
     @Override
     public void startInitEngine(){
         final TextView textView = (TextView)findViewById(R.id.loadingText);
@@ -433,9 +454,9 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
             public void run() {
                 if (menu!=null)
                  menu.setGroupEnabled(0,true);
-                loadingView.setVisibility(View.INVISIBLE);
+                loadingView.setVisibility(INVISIBLE);
                 if (textView != null){
-                    textView.setVisibility(View.INVISIBLE);
+                    textView.setVisibility(INVISIBLE);
                 }
             }
         });
@@ -448,6 +469,11 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
                 if (menu!=null)
                     menu.setGroupEnabled(0,false);
                 loadingView.setVisibility(View.VISIBLE);
+                disable((ViewGroup)findViewById(R.id.controlPanel),false);
+
+//                ((MainActivity)mainContext).findViewById(R.id.controlPanel).setFocusable(false);
+//                ((MainActivity)mainContext).findViewById(R.id.controlPanel).setEnabled(false);
+
 
             }
         });
@@ -458,53 +484,163 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
             @Override
             public void run() {
                 menu.setGroupEnabled(0,true);
-                loadingView.setVisibility(View.INVISIBLE);
+                loadingView.setVisibility(INVISIBLE);
+                disable((ViewGroup)findViewById(R.id.controlPanel),true);
+               // ((MainActivity)mainContext).findViewById(R.id.controlPanel).setEnabled(true);
             }
         });
+    }
+
+    public void toCancelNewGame(View v){
+        if (isSetupNewGame){
+            isSetupNewGame = false;
+            setup_newGame_View.setVisibility(INVISIBLE);
+            invalidateOptionsMenu();
+        }
+    }
+    public void toDoneNewGame(View v){
+        if (isSetupNewGame){
+            isSetupNewGame = false;
+            setup_newGame_View.setVisibility(INVISIBLE);
+            startNewGame();
+            invalidateOptionsMenu();
+        }
+    }
+
+
+    public void toNewGame(View v){
+        isSetupNewGame = true;
+        setup_newGame_View.setVisibility(View.VISIBLE);
+        setupNewGame();
+        invalidateOptionsMenu();
+    }
+
+    public void toUndo(View v){
+        if (game!=null)
+            game.undo();
     }
     public void toPre(View v){
         if (loadingView.getVisibility() ==View.VISIBLE) return;
         if (game!= null){
-            game.updateBoardView(true);
+            game.updateBoardView(Replay_Action.Pre);
         }
 
     }
     public void toNext(View v){
         if (loadingView.getVisibility() ==View.VISIBLE) return;
         if (game!= null){
-            game.updateBoardView(false);
+            game.updateBoardView(Replay_Action.Next);
         }
+    }
+    public void toStart(View v){
+        if (loadingView.getVisibility() ==View.VISIBLE) return;
+        if (game!= null){
+            game.updateBoardView(Replay_Action.Start);
+        }
+    }
+
+    public void toEnd(View v){
+        if (loadingView.getVisibility() ==View.VISIBLE) return;
+        if (game!= null){
+            game.updateBoardView(Replay_Action.End);
+        }
+
+    }
+    public void toCloseTerritory(View v){
+        boardView.showTerritory = false;
+        if (!game.gameFinished)
+            boardView.touchScreenAllowed = true;
+        findViewById(R.id.territory_view).setVisibility(INVISIBLE);
+        findViewById(R.id.player_info_view).setVisibility(VISIBLE);
+
+        boardView.invalidate();
+
+    }
+
+    public void toReplay(View v){
+        Button toReplayBtn = (Button)v;
+        View play_game_controller = findViewById(R.id.play_game_controller);
+        View replay_controller = findViewById(R.id.replay_controller);
+        if (play_game_controller.getVisibility()==View.VISIBLE){
+            game.copyTryList();
+            game.istry = true;
+            play_game_controller.setVisibility(View.GONE);
+            replay_controller.setVisibility(VISIBLE);
+            toReplayBtn.setText(R.string.replay_end);
+        }else{
+            game.istry = false;
+            game.finishTryGame();
+            play_game_controller.setVisibility(View.VISIBLE);
+            replay_controller.setVisibility(View.GONE);
+            toReplayBtn.setText(R.string.replay);
+            if (!game.gameFinished)
+                boardView.touchScreenAllowed = true;
+
+        }
+    }
+
+
+    @Override
+    public void finishGame(){
+        game.getFinalScore();
     }
 
     public void territory(View v){
         if (game== null) return;
-        if (loadingView.getVisibility() ==View.VISIBLE) return;
-        if (boardView.showTerritory){
-            boardView.showTerritory = false;
-            boardView.invalidate();
-            return;
-        }
-        game.finalScore();
-        boardView.showTerritory = true;
-        String result;
-        if (boardView.scoreBoard!= null){
-            int black = 0,white =0;
-            for (int i=0;i<boardView.nSize;i++){
-                for (int j=0;j<boardView.nSize;j++){
-                    if ((char)boardView.scoreBoard[i][j] =='X' ||(char)boardView.scoreBoard[i][j] =='x'){
-                        black ++;
-                    }else if((char)boardView.scoreBoard[i][j] =='O' ||(char)boardView.scoreBoard[i][j] =='o'){
-                        white ++;
-                    }
-                }
+        StartThinking();
+        boardView.touchScreenAllowed = false;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+               final int[] scores = game.getInfluence();
+               runOnUiThread(new Runnable() {
+                   @Override
+                   public void run() {
+                       if (scores != null){
+                           int b_m = scores[0];
+                           int w_m = scores[1];
+                           int b_captures = scores[2];
+                           int w_captures = scores[3];
+                           String s;
+                           TextView b_total_m = (TextView)findViewById(R.id.m_black_score);
+                           s = b_m+getString(R.string.point);
+                           b_total_m.setText(s);
+                           TextView w_total_m = (TextView)findViewById(R.id.m_white_score);
+                           s = w_m+getString(R.string.point);
+                           w_total_m.setText(s);
+                           TextView b_e_m = (TextView)findViewById(R.id.m_black_eat);
+                           s = b_captures+getString(R.string.point);
+                           b_e_m.setText(s);
+                           TextView w_e_m = (TextView)findViewById(R.id.m_white_eat);
+                           s = w_captures+getString(R.string.point);
+                           w_e_m.setText(s);
+                           TextView w_back_m = (TextView)findViewById(R.id.m_white_back);
+                           s = game.gameInfo.Komi+getString(R.string.point);
+                           w_back_m.setText(s);
+
+                           float score  = b_m-w_m+b_captures-w_captures-Float.parseFloat(game.gameInfo.Komi);
+                           TextView torritory = (TextView)findViewById(R.id.territory_score);
+                           s = (score>0?getString(R.string.black):getString(R.string.white)) +getString(R.string.leads)+ abs(score) + getString(R.string.point);
+                           torritory.setText(s);
+                           boardView.showTerritory = true;
+
+                           findViewById(R.id.territory_view).setVisibility(VISIBLE);
+                           findViewById(R.id.player_info_view).setVisibility(INVISIBLE);
+
+                           boardView.invalidate();
+                       }else{
+                           if (!game.gameFinished)
+                               boardView.touchScreenAllowed = true;
+                       }
+                       endThinking();
+                   }
+               });
             }
-            int hdcp = game.getGameHdcp();
-            double komi = game.getGameKomi();
-            double score = black - white - komi - hdcp;
-            result = String.format(Locale.US, "%.1f", abs(score));
-            result = getString(R.string.gtp_game_result,getString(score>0?R.string.black:R.string.white),result);
-            showAlert(result);
-        }
+        }).start();
+
+
+
+
     }
     public void pass(View v){
         if (loadingView.getVisibility() ==View.VISIBLE) return;
@@ -513,6 +649,56 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
             Toast.makeText(this,getString(R.string.board_player_passes,getString(R.string.player)), Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+
+    public void updateGameInfo(final int moveNumber){
+        final TextView l_player = (TextView) findViewById(R.id.player1);
+        final TextView r_player = (TextView) findViewById(R.id.player2);
+        final TextView l_eat = (TextView) findViewById(R.id.player1_prisoners);
+        final TextView r_eat = (TextView) findViewById(R.id.player2_prisoners);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (game ==null){
+                    try {
+                        wait(100);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        return;
+                    }
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        int playerColor = game.humanColor;
+                        String s;
+                        s = getString(R.string.board_bot_level) + game.level;
+                        if (playerColor == BLACK){
+                            l_player.setText(R.string.you);
+                            r_player.setText(s);
+
+                        }else{
+                            r_player.setText(R.string.you);
+                            l_player.setText(s);
+
+                        }
+                        s = getString(R.string.eat) + boardView.black_captures;
+                        l_eat.setText(s);
+                        s = getString(R.string.eat) + boardView.white_captures;
+                        r_eat.setText(s);
+
+                        if (getSupportActionBar()!= null)
+                            getSupportActionBar().setSubtitle((moveNumber > 0) ?
+                                    getString(R.string.board_move_number, moveNumber) : getString(R.string.board_no_moves));
+                    }
+                });
+            }
+        }).start();
+
+
     }
 
     private void showAlert(String message){
@@ -564,7 +750,7 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
                     uniqueID +=   dateFormat.format(new Date());
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference writeRef = database.getReferenceFromUrl("https://go-game-be8dc.firebaseio.com/"); //Getting root reference
-                    Map<String,String> report = new HashMap<String,String>();
+                    Map<String,String> report = new HashMap();
                     report.put("uniqueID",uniqueID);
                     report.put("comment",text);
                     writeRef.child("GoGameFeedback").push().setValue(report);
@@ -581,5 +767,29 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
         alert.show();
 
     }
+
+
+    private void disable(ViewGroup layout, boolean enable) {
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            View child = layout.getChildAt(i);
+            child.setEnabled(enable);
+            if (child instanceof ViewGroup) {
+                ViewGroup group = (ViewGroup) child;
+
+                for (int j = 0; j < group.getChildCount(); j++) {
+                    group.getChildAt(j).setEnabled(enable);
+                }
+            }
+
+        }
+    }
+
+
+
+
+
+
+
+
 
 }

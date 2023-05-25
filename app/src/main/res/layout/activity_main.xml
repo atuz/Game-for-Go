@@ -195,7 +195,7 @@
         android:background="@android:color/white"
         ads:adSize="BANNER"
         android:visibility="visible"
-        ads:adUnitId="ca-app-pub-8278333774696675/3086132541">
+        ads:adUnitId="##################">
     </com.google.android.gms.ads.AdView>
 
     <include

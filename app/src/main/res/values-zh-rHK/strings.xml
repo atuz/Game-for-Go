@@ -41,6 +41,9 @@
     <string name="gtp_resign_win">電腦認輸！</string>
     <string name="gtp_game_result">%1$s 贏了 %2$s 目!</string>
 
+    <string name="connect_server_fail">Server 連接失敗, 請稍候點右上角重試按鈕.</string>
+    <string name="Ai_thinking_fiale">AI下棋錯誤，請點右上角重試按鈕.</string>
+
     <string name="board_no_moves">開始遊戲</string>
     <string name="board_move_number">第%d步</string>
     <string name="board_game_vs">玩家 vs %s</string>

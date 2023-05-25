@@ -54,6 +54,8 @@
     <string name="board_player_passes">%sはパスします。</string>
 
 
+    <string name="connect_server_fail">アプリケーションはサーバーに接続できません。 右上のボタンをクリックしてもう一度お試しください.</string>
+    <string name="Ai_thinking_fiale">これはAIエラーです。 右上のボタンをクリックしてもう一度お試しください.</string>
     <string name="black_point">黑目</string>
     <string name="white_point">白目</string>
     <string name="point">目</string>

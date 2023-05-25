@@ -1,6 +1,8 @@
 package com.zhengping.gogame.Object;
 
 import android.graphics.Point;
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -17,7 +19,7 @@ public class GameCalculator {
     private int boardsize = 0;
 
 
-    public GameCalculator(GameInfo info){
+    public GameCalculator(@NonNull GameInfo info){
         GnuGoGame.initGnugoEngine();
         gameInfo = info;
         boardsize = info.Size;

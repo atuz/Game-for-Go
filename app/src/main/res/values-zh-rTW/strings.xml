@@ -54,6 +54,10 @@
     <string name="rateApp">給我評分</string>
     <string name="ourWebsite">我的主頁</string>
 
+
+    <string name="connect_server_fail">Server 連接失敗, 請稍候點右上角重試按鈕.</string>
+    <string name="Ai_thinking_fiale">AI下棋錯誤，請點右上角重試按鈕.</string>
+
     <string name="black_point">黑目</string>
     <string name="white_point">白目</string>
     <string name="point">目</string>

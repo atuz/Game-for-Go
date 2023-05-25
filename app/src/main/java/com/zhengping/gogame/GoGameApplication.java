@@ -24,6 +24,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -62,8 +63,9 @@ public class GoGameApplication extends Application {
         copyJoseki();
         SharedPreferences settings = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext());
-        host = settings.getString(Host,"192.168.1.17");
+        host = settings.getString(Host,"150.95.182.29");
         port = settings.getInt(Port,6666);
+        FirebaseApp.initializeApp(this);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef1 = database.getReferenceFromUrl("https://go-game-be8dc.firebaseio.com/"); //Getting root reference
         DatabaseReference myRef = myRef1.child(Host);

@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ConnectException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import static com.zhengping.gogame.Board.ProblemView.BLACK;
@@ -53,7 +54,8 @@ public class SocketGame extends Game {
 
 
     public boolean newGame() {
-        if (engineProcessAction != null) engineProcessAction.startInitEngine();
+        if (engineProcessAction != null)
+            engineProcessAction.startInitEngine();
         setupNewGame();
         calculator.sendGtpCommand("boardsize " + gameInfo.Size);
         calculator.sendGtpCommand("komi " + ((int) ( Double.parseDouble(gameInfo.Komi) * 10.0) / 10.0));
@@ -133,32 +135,55 @@ public class SocketGame extends Game {
         return COM_SERVER;
     }
 
-    public boolean setLevel(int level) {
+//    public boolean setLevel(int level) {
+//        String time = "00 01 01";
+//        switch (level){
+//            case 6:
+//                time = "00 02 01";
+//                break;
+//            case 7:
+//                time = "00 01 01";
+//                break;
+//            case 8:
+//                time = "00 02 01";
+//                break;
+//            case 9:
+//                time = "00 04 01";
+//            case 10:
+//                time = "00 05 01";
+//                break;
+//
+//        }
+//        try{
+//            return cmdSuccess(sendGtpCommand("time_settings " + time));
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return false;
+//
+//
+//    }
+    public String levelCommand(int level) {
         String time = "00 01 01";
         switch (level){
             case 6:
                 time = "00 01 01";
                 break;
             case 7:
-                time = "01 01 01";
+                time = "00 02 01";
                 break;
             case 8:
-                time = "01 02 01";
+                time = "00 04 01";
                 break;
             case 9:
-                time = "01 03 01";
+                time = "00 06 01";
+                break;
             case 10:
-                time = "02 04 01";
+                time = "00 08 01";
                 break;
 
         }
-        try{
-            return cmdSuccess(sendGtpCommand("time_settings " + time));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return false;
-
+        return "time_settings " + time;
 
     }
     String sendGtpCommand(String command){
@@ -171,6 +196,7 @@ public class SocketGame extends Game {
 
     }
     private String sendGtpCommand(OutputStream outputStream,BufferedReader bufReader,String command) throws Exception{
+        System.out.println("commands is :" + command);
         if (command.charAt(command.length() - 1) !='\n') command+="\n";
 
 
@@ -183,6 +209,7 @@ public class SocketGame extends Game {
             reply = reply + s +"\n";
             if (s.length() ==0) break;
         }
+        System.out.println("replay is :" + reply);
         if (reply.length () == 0 || reply.charAt (0) == '?')
         {
             return "";
@@ -195,47 +222,61 @@ public class SocketGame extends Game {
         ConnectException exception = new ConnectException();
         InputStream inputStream = null;
         try{
-            socket = new Socket(host,port);
+            socket = new Socket();
+            socket.connect(new InetSocketAddress(host,port), 5000);
+           // socket = new Socket(host,port);
+            socket.setSoTimeout(level*2000 >10000?level*2000:10000);
             outputStream = socket.getOutputStream();
             inputStream = socket.getInputStream();
             InputStreamReader reader = new InputStreamReader(inputStream);
             bufReader = new BufferedReader(reader);
-            if (!cmdSuccess(sendGtpCommand("boardsize " + gameInfo.Size))){
-             throw exception;
-            }
-            if (!cmdSuccess(sendGtpCommand("komi " + ((int) ( Double.parseDouble(gameInfo.Komi) * 10.0) / 10.0)))){
-                throw exception;
-            }
-            if (!setLevel(level)){
-                throw exception;
-            }
-
+            String cmds = "";
+//            if (!cmdSuccess(sendGtpCommand("boardsize " + gameInfo.Size))){
+//             throw exception;
+//            }
+            cmds = "boardsize " + gameInfo.Size +"\n";
+//            if (!cmdSuccess(sendGtpCommand("komi " + ((int) ( Double.parseDouble(gameInfo.Komi) * 10.0) / 10.0)))){
+//                throw exception;
+//            }
+            cmds += "komi " + ((int) ( Double.parseDouble(gameInfo.Komi) * 10.0) / 10.0) +"\n";
+//            if (!setLevel(level)){
+//                throw exception;
+//            }
+            cmds += levelCommand(level) +"\n";
             if (ABArray.size()>0){
                 String AB ="";
                 for (int i=0;i<ABArray.size();i++){
                     point = new Point(ABArray.get(i).charAt(0)-'a',ABArray.get(i).charAt(1)-'a');
                     AB += " "+_point2str(point.x ,point.y,gameInfo.Size);
                 }
-                if (!cmdSuccess(sendGtpCommand("set_free_handicap "+AB))){
-                    throw exception;
-                }
+                cmds += "set_free_handicap "+AB +"\n";
+
+//                if (!cmdSuccess(sendGtpCommand("set_free_handicap "+AB))){
+//                    throw exception;
+//                }
             }
 
             for (final Stone stone :gameList){
                 point = stone.point;
                 int color = stone.color;
                 String cmd = String.format("play %1$s %2$s", getColorString(color), _point2str(point.x,point.y,gameInfo.Size));
-                if (!cmdSuccess(sendGtpCommand(cmd)))
-                    throw exception;
+                cmds += cmd +"\n";
+//                if (!cmdSuccess(sendGtpCommand(cmd)))
+//                    throw exception;
                 playMove(stone,false);
             }
-            point = AiMove();
+
+            cmds += "genmove " + getColorString(playerColor)  +"\n\n";
+
+            point = AiMove(cmds);
             connected = true;
 
         }catch (Exception e){
+            connected = false;
            if (e.getClass() == ConnectException.class){
-               connected = false;
                Toast.makeText(context, R.string.connect_server_fail,Toast.LENGTH_SHORT).show();
+           }else{
+               Toast.makeText(context, R.string.Ai_thinking_fiale,Toast.LENGTH_SHORT).show();
            }
             e.printStackTrace();
         }finally {
@@ -249,8 +290,8 @@ public class SocketGame extends Game {
             try{
                 if (inputStream != null)
                      inputStream.close();
-                outputStream.close();
                 socket.close();
+                outputStream.close();
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -259,13 +300,14 @@ public class SocketGame extends Game {
 
         return point;
     }
-    private Point AiMove() throws Exception {
+    private Point AiMove(String cmds) throws Exception {
 
-        String move = sendGtpCommand("genmove " + getColorString(playerColor));
-        if (!cmdSuccess(move)){
-
-           throw( new ConnectException());
-        }
+        String move = sendGtpCommand(outputStream,bufReader,cmds);;
+//        String move = sendGtpCommand("genmove " + getColorString(playerColor));
+//        if (!cmdSuccess(move)){
+//
+//           throw( new ConnectException());
+//        }
         boardView.postInvalidate();
         Point point = _str2point(move.substring(move.indexOf(' ') + 1).trim(),gameInfo.Size);
         if (point.x != -3){

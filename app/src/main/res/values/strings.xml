@@ -56,8 +56,8 @@
     <string name="rateApp">Rate this App</string>
     <string name="ourWebsite">Our WebSite</string>
 
-    <string name="connect_server_fail">Can not connect to the server, Please try again later.</string>
-    <string name="Ai_thinking_fiale">AI Error, please resume game.</string>
+    <string name="connect_server_fail">Can not connect to the server, click the button in the upper right corner and try again.</string>
+    <string name="Ai_thinking_fiale">AI Error,click the button in the upper right corner and try again.</string>
 
     <string name="black_point">Black points</string>
     <string name="white_point">White points</string>

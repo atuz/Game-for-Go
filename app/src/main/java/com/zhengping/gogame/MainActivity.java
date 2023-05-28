@@ -710,7 +710,7 @@ public class MainActivity extends AppCompatActivity implements Game.EngineProces
     }
 
     private void initAds(int resourceID){
-        MobileAds.initialize(this, "#################");
+        MobileAds.initialize(this, "ca-app-pub-8278333774696675~1609399348");
         AdView mAdView = (AdView) findViewById(resourceID);
         if (mAdView!=null) {
             AdRequest adRequest = new AdRequest.Builder().build();

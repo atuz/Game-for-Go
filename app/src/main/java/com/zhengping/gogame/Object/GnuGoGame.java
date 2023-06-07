@@ -1,15 +1,6 @@
 package com.zhengping.gogame.Object;
 
-import android.content.Context;
-import android.graphics.Point;
-import android.support.v7.app.AlertDialog;
-
-import com.zhengping.gogame.Board.BoardView;
-import com.zhengping.gogame.MainActivity;
-
-import java.util.StringTokenizer;
-
-import static com.zhengping.gogame.MainActivity.COM_GNUGO;
+import androidx.appcompat.app.AlertDialog;
 
 /**
  * Created by user on 2017-09-28.

@@ -27,9 +27,9 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -54,7 +54,6 @@ import static com.zhengping.gogame.Board.ProblemView.BLANK;
 import static com.zhengping.gogame.Board.ProblemView.WHITE;
 import static com.zhengping.gogame.GoGameApplication.PERMISSIONS_EXTERNAL_STORAGE;
 import static com.zhengping.gogame.GoGameApplication.cacheDir;
-import static com.zhengping.gogame.Util.Util._BOARD_LETTERS;
 import static com.zhengping.gogame.Util.Util._point2str;
 import static com.zhengping.gogame.Util.Util._str2point;
 

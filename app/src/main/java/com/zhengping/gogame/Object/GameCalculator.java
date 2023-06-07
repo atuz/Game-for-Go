@@ -1,7 +1,7 @@
 package com.zhengping.gogame.Object;
 
 import android.graphics.Point;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;

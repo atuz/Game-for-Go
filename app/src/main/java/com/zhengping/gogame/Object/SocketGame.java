@@ -1,11 +1,9 @@
 package com.zhengping.gogame.Object;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Point;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.widget.Toast;
 
 import com.zhengping.gogame.Board.BoardView;
@@ -27,9 +25,6 @@ import static com.zhengping.gogame.Board.ProblemView.WHITE;
 import static com.zhengping.gogame.GoGameApplication.host;
 import static com.zhengping.gogame.GoGameApplication.port;
 import static com.zhengping.gogame.MainActivity.COM_SERVER;
-import static com.zhengping.gogame.R.string.abc_shareactionprovider_share_with;
-import static com.zhengping.gogame.R.string.handicap;
-import static com.zhengping.gogame.R.string.white;
 import static com.zhengping.gogame.Util.Util._point2str;
 import static com.zhengping.gogame.Util.Util._str2point;
 
